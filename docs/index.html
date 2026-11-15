@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Beck-Noxtua – dokumentacja design systemu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="assets/docs.css">
+<script src="assets/docs.js"></script>
+</head>
+<body>
+<aside class="side" id="side"></aside>
+<main id="main">
+  <span class="eyebrow">Dokumentacja</span>
+  <h1>Beck-Noxtua – design system</h1>
+  <p class="lead">Jedno miejsce z tokenami, komponentami, zasadami i raportem dostępności dla redesignu beck-noxtua.pl. Dla projektantów, PM i deweloperów.</p>
+
+  <div class="note"><b>Widok Projekt / Kod.</b> Przełącznik w pasku bocznym pokazuje albo ukrywa warstwę techniczną (zmienne CSS, aliasy, media queries). Treść jest wspólna – wybór zapamiętuje przeglądarka.</div>
+
+  <h2>Działy</h2>
+  <div class="cards">
+    <a class="card" href="tokeny.html"><b>Tokeny</b><span>Kolory (Light / Dark), typografia, odstępy, promienie i wartości responsywne – wygenerowane z Figmy, z kontrastem.</span></a>
+    <div class="card"><b>Komponenty</b><span class="muted">Wkrótce: opisy, warianty i stany z biblioteki, przykłady HTML.</span></div>
+    <div class="card"><b>Zasady</b><span class="muted">Wkrótce: siatka, typografia, animacje, formularze, nazewnictwo.</span></div>
+    <a class="card" href="raport-wcag.html"><b>Raport WCAG</b><span>Audyt makiet i prototypu (WCAG 2.2 AA) ze statusem każdej poprawki.</span></a>
+    <div class="card"><b>CSS</b><span class="muted">Wkrótce: tokens.css i klasy prototypu z przykładami.</span></div>
+  </div>
+
+  <h2>Źródło prawdy</h2>
+  <p>Tokeny żyją w zmiennych biblioteki Figma <b>Noxtua – Design System</b>. Z nich generowane są pliki w repozytorium – nie zmieniaj ich ręcznie.</p>
+  <div class="only-projekt">
+    <ol class="small" style="padding-left:1.2em;display:grid;gap:6px;margin-top:12px;max-width:70ch">
+      <li>Zmiana koloru, odstępu lub rozmiaru – w Figmie (zmienne), potem publikacja biblioteki.</li>
+      <li>Synchronizacja: eksport zmiennych do <code>docs/data/tokens.json</code> i wygenerowanie <code>tokens.css</code>.</li>
+      <li>Prototyp i dokumentacja korzystają z tego samego <code>tokens.css</code>, więc zmianę widać od razu w obu.</li>
+    </ol>
+  </div>
+  <div class="only-kod">
+    <div class="pre">docs/data/tokens.json      ← eksport zmiennych z Figmy
+docs/tools/build_tokens.py ← generator
+docs/tokens.css            ← wynik (dokumentacja)
+prototyp/tokens.css        ← kopia (prototyp)
+docs/data/tokens.js        ← dane dla stron dokumentacji
+
+python3 docs/tools/build_tokens.py</div>
+  </div>
+
+  <h2>Jak otworzyć</h2>
+  <p>Dwuklik w <code>docs/index.html</code> (Chrome lub Edge). Nie trzeba serwera ani instalacji. Font DM Sans ładuje się z internetu.</p>
+</main>
+</body>
+</html>

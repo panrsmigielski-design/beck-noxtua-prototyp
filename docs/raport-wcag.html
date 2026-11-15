@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Raport WCAG – Beck-Noxtua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="assets/docs.css">
+<style>
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:var(--space-24) 0}
+.stat{padding:16px 18px;border:1px solid var(--border-default);border-radius:var(--radius-md);background:var(--bg-elevated);display:grid;gap:2px}
+.stat b{font:var(--t-h2);letter-spacing:var(--t-h2-tracking)}
+.stat span{font:var(--t-caption);color:var(--text-muted)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:var(--space-16) 0 var(--space-24)}
+.filters button{border:1px solid var(--border-strong);background:var(--bg-canvas);color:var(--text-secondary);border-radius:999px;padding:6px 14px;font:var(--t-label);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--action-primary-bg);color:var(--action-primary-text);border-color:var(--action-primary-bg)}
+.finding{border:1px solid var(--border-default);border-radius:var(--radius-md);background:var(--bg-elevated);padding:20px 24px;display:grid;gap:12px;margin-bottom:16px}
+.finding header{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.finding h3{margin:0;font:var(--t-h4);flex:1 1 320px}
+.fid{font:var(--t-label);color:var(--text-muted);min-width:28px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font:var(--t-caption);border:1px solid transparent;white-space:nowrap}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.s-otwarte{background:var(--feedback-error-soft);color:var(--feedback-error)}
+.s-do-weryfikacji{background:var(--accent-soft);color:var(--accent-on-soft)}
+.s-poprawione{background:var(--feedback-success-soft);color:var(--feedback-success)}
+.s-uwaga{background:var(--bg-subtle);color:var(--text-secondary);border-color:var(--border-default)}
+.crit{font:var(--t-caption);color:var(--text-secondary);border:1px solid var(--border-default);border-radius:999px;padding:3px 10px}
+.where{font:var(--t-caption);color:var(--text-muted)}
+.finding dl{display:grid;grid-template-columns:120px 1fr;gap:6px 16px;font:var(--t-body-sm)}
+.finding dt{color:var(--text-muted)}
+.finding dd{margin:0;color:var(--text-primary)}
+.passed{display:grid;gap:8px;padding:0;list-style:none}
+.passed li{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--border-default);font:var(--t-body-sm)}
+.passed li b{font:var(--t-label);color:var(--feedback-success)}
+@media (max-width:700px){.finding dl,.passed li{grid-template-columns:1fr}}
+</style>
+<script src="assets/docs.js"></script>
+<script src="data/wcag.js"></script>
+</head>
+<body>
+<aside class="side" id="side"></aside>
+<main id="main">
+  <span class="eyebrow">Dostępność</span>
+  <h1>Raport WCAG</h1>
+  <p class="lead">Audyt makiet w Figmie i prototypu HTML pod kątem <span id="std"></span>. Ustalenia mają status – aktualizujemy go po każdej poprawce.</p>
+  <div class="stats" id="stats"></div>
+
+  <h2 id="ustalenia">Ustalenia</h2>
+  <div class="filters" role="group" aria-label="Filtruj według statusu" id="filters"></div>
+  <div id="list" aria-live="polite"></div>
+
+  <h2 id="spelnione">Co jest spełnione</h2>
+  <ul class="passed" id="passed"></ul>
+
+  <h2 id="inne">Inne uwagi</h2>
+  <ul id="other" class="small" style="padding-left:1.2em;display:grid;gap:8px;max-width:80ch"></ul>
+
+  <h2 id="metoda">Zakres i metoda</h2>
+  <div id="audits"></div>
+  <p class="small muted only-projekt" style="margin-top:16px">Statusy: <b>otwarte</b> – do poprawy; <b>do weryfikacji</b> – wymaga sprawdzenia wzrokowego; <b>poprawione</b> – zmienione i sprawdzone; <b>uwaga</b> – zalecenie, nie naruszenie.</p>
+  <p class="small muted only-kod" style="margin-top:16px">Dane raportu: <code>docs/data/wcag.js</code>. Status zmieniaj tam (pole <code>status</code>, <code>fixedOn</code>), strona przelicza się sama.</p>
+</main>
+<script>
+(() => {
+  const W = window.BN_WCAG;
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const LABEL = { 'otwarte': 'Otwarte', 'do-weryfikacji': 'Do weryfikacji', 'poprawione': 'Poprawione', 'uwaga': 'Uwaga' };
+  const fmtDate = d => new Date(d).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('std').textContent = W.standard;
+
+  const count = s => W.findings.filter(f => f.status === s).length;
+  document.getElementById('stats').innerHTML = [['otwarte'], ['do-weryfikacji'], ['poprawione'], ['uwaga']]
+    .map(([s]) => `<div class="stat"><b>${count(s)}</b><span>${LABEL[s]}</span></div>`).join('') +
+    `<div class="stat"><b>${W.passed.length}</b><span>Spełnione obszary</span></div>`;
+
+  let filter = 'wszystkie';
+  const fl = document.getElementById('filters');
+  fl.innerHTML = ['wszystkie', 'otwarte', 'do-weryfikacji', 'poprawione', 'uwaga']
+    .map(s => `<button type="button" data-s="${s}" aria-pressed="${s === filter}">${s === 'wszystkie' ? 'Wszystkie' : LABEL[s]} (${s === 'wszystkie' ? W.findings.length : count(s)})</button>`).join('');
+  fl.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; filter = b.dataset.s; fl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); });
+
+  const order = { 'otwarte': 0, 'do-weryfikacji': 1, 'uwaga': 3, 'poprawione': 2 };
+  function render() {
+    const items = W.findings.filter(f => filter === 'wszystkie' || f.status === filter).sort((a, b) => order[a.status] - order[b.status]);
+    document.getElementById('list').innerHTML = items.map(f => `
+      <article class="finding" id="${f.id}">
+        <header><span class="fid">${f.id}</span><h3>${esc(f.title)}</h3><span class="badge s-${f.status}">${LABEL[f.status]}${f.fixedOn ? ' · ' + fmtDate(f.fixedOn) : ''}</span></header>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><span class="crit">${f.criterion} ${esc(f.name)} · ${f.level}</span><span class="where">${f.where.join(' · ')}</span></div>
+        <dl>
+          <dt>Problem</dt><dd>${esc(f.problem)}</dd>
+          <dt>${f.status === 'poprawione' ? 'Co zrobiono' : 'Rekomendacja'}</dt><dd>${esc(f.fix)}</dd>
+          <dt class="only-kod">Dla kodu</dt><dd class="only-kod"><code>${esc(f.code)}</code></dd>
+          ${f.note ? `<dt>Uwaga</dt><dd>${esc(f.note)}</dd>` : ''}
+        </dl>
+      </article>`).join('') || '<p class="muted">Brak ustaleń o tym statusie.</p>';
+  }
+  render();
+
+  document.getElementById('passed').innerHTML = W.passed.map(([c, t]) => `<li><b>${c}</b><span>${esc(t)}</span></li>`).join('');
+  document.getElementById('other').innerHTML = W.other.map(t => `<li>${esc(t)}</li>`).join('');
+  document.getElementById('audits').innerHTML = W.audits.map(a => `<div class="card" style="margin-bottom:12px"><b>${fmtDate(a.date)}</b><span><b style="font:var(--t-label)">Zakres:</b> ${esc(a.scope)}</span><span><b style="font:var(--t-label)">Metoda:</b> ${esc(a.method)}</span></div>`).join('');
+})();
+</script>
+</body>
+</html>

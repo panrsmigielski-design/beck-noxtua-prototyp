@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Tokeny – Beck-Noxtua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="assets/docs.css">
+<script src="assets/docs.js"></script>
+<script src="data/tokens.js"></script>
+</head>
+<body>
+<aside class="side" id="side"></aside>
+<main id="main">
+  <span class="eyebrow">Tokeny</span>
+  <h1>Tokeny</h1>
+  <p class="lead">Wszystkie wartości wizualne systemu: kolory, typografia, odstępy i wartości zależne od rozdzielczości. Wygenerowane ze zmiennych Figmy – <span id="gen"></span>.</p>
+  <nav class="toc" aria-label="Na tej stronie">
+    <a href="#kolory">Kolory semantyczne</a><a href="#prymitywy">Paleta (prymitywy)</a><a href="#kierunki">Kierunki marki</a><a href="#typografia">Typografia</a><a href="#odstepy">Odstępy i promienie</a><a href="#responsywne">Wartości responsywne</a>
+  </nav>
+
+  <h2 id="kolory">Kolory semantyczne</h2>
+  <p class="only-projekt">Kolory, których używają komponenty. Każdy ma wartość dla trybu jasnego i ciemnego. <b>Kontrast</b> liczony do tła strony (<code>bg/canvas</code>, a dla <code>text/inverse</code> do <code>bg/inverse</code>): teksty wymagają 4,5:1, obramowania i fokus 3:1 (WCAG 2.2 AA).</p>
+  <p class="only-kod">Zmienne CSS z <code>tokens.css</code>. Tryb ciemny: <code>[data-theme="dark"]</code> albo systemowy <code>prefers-color-scheme: dark</code>. Kolumna „Alias” pokazuje, z którego prymitywu bierze się wartość (kierunek marki A).</p>
+  <div class="tbl-wrap"><table id="t-theme"><thead><tr><th>Token</th><th>Jasny</th><th>Ciemny</th><th class="only-projekt">Kontrast (J / C)</th><th class="only-projekt">Zastosowanie</th><th class="only-kod">CSS</th><th class="only-kod">Alias (J / C)</th></tr></thead><tbody></tbody></table></div>
+
+  <h2 id="prymitywy">Paleta (prymitywy)</h2>
+  <p class="only-projekt">Surowe kolory z brandbooka i rozszerzeń. Komponenty nie używają ich bezpośrednio – tylko przez kolory semantyczne. „ext/…” to rozszerzenia poza brandbookiem.</p>
+  <p class="only-kod">Prymitywy mają prefiks <code>--p-</code>. Nie używaj ich w komponentach – korzystaj z tokenów semantycznych.</p>
+  <div id="prims"></div>
+
+  <h2 id="kierunki">Kierunki marki</h2>
+  <p>Biblioteka ma dwa kierunki kolorystyczne: <b>A</b> (używany w makietach i prototypie) i <b>B</b> (chłodniejszy, do decyzji). Przełącza się je trybem kolekcji Brand w Figmie.</p>
+  <div class="tbl-wrap"><table id="t-brand"><thead><tr><th>Token</th><th>Kierunek A</th><th>Kierunek B</th><th class="only-kod">CSS</th></tr></thead><tbody></tbody></table></div>
+
+  <h2 id="typografia">Typografia</h2>
+  <p class="only-projekt">Krój <b>DM Sans</b>. Rozmiary zmieniają się z rozdzielczością (Desktop / Tablet / Mobile).</p>
+  <p class="only-kod">Style tekstu jako skrót <code>font</code>: <code>font: var(--t-h1); letter-spacing: var(--t-h1-tracking)</code>. Rozmiary i interlinie w <code>--type-*</code> zmieniają się w media queries.</p>
+  <div id="type"></div>
+
+  <h2 id="odstepy">Odstępy i promienie</h2>
+  <div class="tbl-wrap"><table id="t-layout"><thead><tr><th>Token</th><th>Wartość</th><th>Podgląd</th><th class="only-kod">CSS</th></tr></thead><tbody></tbody></table></div>
+
+  <h2 id="responsywne">Wartości responsywne</h2>
+  <p class="only-projekt">Wartości zależne od szerokości ekranu: marginesy, odstępy sekcji, rozmiary tekstu, wysokości zdjęć. Desktop XL to ekrany od 1920 px.</p>
+  <p class="only-kod">Mobile first: wartość bazowa = Mobile, <code>@media (min-width: 768px)</code> = Tablet, <code>1024px</code> = Desktop, <code>1920px</code> = Desktop XL. Przełączniki widoczności (<code>show-*</code>) mają wartości 1 / 0.</p>
+  <div class="tbl-wrap"><table id="t-resp"><thead><tr><th>Token</th><th>Desktop</th><th>Tablet</th><th>Mobile</th><th>Desktop XL</th><th class="only-projekt">Opis</th><th class="only-kod">CSS</th></tr></thead><tbody></tbody></table></div>
+</main>
+<script>
+(() => {
+  const T = window.BN_TOKENS;
+  const C = Object.fromEntries(T.collections.map(c => [c.name, c]));
+  const idx = {}; T.collections.forEach(c => c.vars.forEach(v => idx[v[0]] = { c, v }));
+  const css = n => '--' + idx[n].c.prefix + n.replace(/\//g, '-');
+  const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+  document.getElementById('gen').textContent = 'eksport z ' + new Date(T.generated).toLocaleString('pl-PL', { dateStyle: 'long', timeStyle: 'short' });
+
+  // rozwiązywanie aliasów: zwraca [hex, łańcuch]
+  function resolve(name, themeMode, brandMode = 'Kierunek A', chain = []) {
+    const { c, v } = idx[name];
+    const modeIx = c.name === 'Theme' ? c.modes.indexOf(themeMode) : c.name === 'Brand' ? c.modes.indexOf(brandMode) : 0;
+    const val = v[2][Math.max(0, modeIx)];
+    if (typeof val === 'string' && val.startsWith('@')) return resolve(val.slice(1), themeMode, brandMode, chain.concat(val.slice(1)));
+    return [val, chain];
+  }
+  const rgb = h => { h = h.replace('#', ''); const n = parseInt(h.slice(0, 6), 16); return { r: (n >> 16) / 255, g: (n >> 8 & 255) / 255, b: (n & 255) / 255, a: h.length > 6 ? parseInt(h.slice(6, 8), 16) / 255 : 1 }; };
+  const blend = (f, b) => ({ r: f.r * f.a + b.r * (1 - f.a), g: f.g * f.a + b.g * (1 - f.a), b: f.b * f.a + b.b * (1 - f.a), a: 1 });
+  const lum = ({ r, g, b }) => { const f = x => x <= .03928 ? x / 12.92 : Math.pow((x + .055) / 1.055, 2.4); return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
+  const ratio = (fg, bg) => { const B = rgb(bg), F = blend(rgb(fg), B); const a = lum(F), b = lum(B); return (Math.max(a, b) + .05) / (Math.min(a, b) + .05); };
+  const chip = hex => `<span class="chip"><i style="background:${hex}"></i></span>`;
+  const copy = n => `<button type="button" class="copy" data-copy="var(${n})" title="Kopiuj">${n}</button>`;
+  const fmtR = (r, need) => need ? `<span class="ratio ${r >= need ? 'ok' : 'bad'}">${r.toFixed(2).replace('.', ',')}:1</span>` : '<span class="muted">–</span>';
+  const need = n => n.startsWith('text/') || n === 'accent/default' || n === 'feedback/error' || n === 'feedback/success' ? 4.5 : (n === 'border/strong' || n === 'focus/ring') ? 3 : 0;
+
+  // Kolory semantyczne
+  const tb = document.querySelector('#t-theme tbody');
+  for (const v of C.Theme.vars) {
+    const n = v[0]; const [l, cl] = resolve(n, 'Light'); const [d, cd] = resolve(n, 'Dark');
+    const bgTok = n === 'text/inverse' ? 'bg/inverse' : 'bg/canvas';   // tekst odwrócony mierzymy do tła odwróconego
+    const bgL = resolve(bgTok, 'Light')[0], bgD = resolve(bgTok, 'Dark')[0]; const req = need(n);
+    tb.insertAdjacentHTML('beforeend', `<tr><td><b>${n}</b></td>
+      <td><span class="sw">${chip(l)}<span class="hex">${l}</span></span></td>
+      <td><span class="sw">${chip(d)}<span class="hex">${d}</span></span></td>
+      <td class="only-projekt num">${req ? fmtR(ratio(l, bgL), req) + ' ' + fmtR(ratio(d, bgD), req) : '<span class="muted">–</span>'}</td>
+      <td class="only-projekt small">${esc(v[3] || '')}</td>
+      <td class="only-kod">${copy(css(n))}</td>
+      <td class="only-kod small hex">${cl.slice(-1)[0] || '–'} / ${cd.slice(-1)[0] || '–'}</td></tr>`);
+  }
+
+  // Prymitywy wg rodzin
+  const fams = {}; for (const v of C.Primitives.vars) { const f = v[0].split('/')[0]; (fams[f] = fams[f] || []).push(v); }
+  const pr = document.getElementById('prims');
+  for (const [f, list] of Object.entries(fams)) {
+    pr.insertAdjacentHTML('beforeend', `<h3>${f}</h3><div class="fam">${list.map(v => `<div class="pr" title="${esc(v[3] || '')}"><div class="c" style="background:${v[2][0]}"></div><div><b>${v[0].split('/')[1]}</b><span class="hex">${v[2][0]}</span><span class="only-kod">${copy(css(v[0]))}</span></div></div>`).join('')}</div>`);
+  }
+
+  // Kierunki marki (pary jasny/ciemny)
+  const bt = document.querySelector('#t-brand tbody');
+  for (const v of C.Brand.vars) {
+    const a = resolve(v[0], 'Light', 'Kierunek A')[0], b = resolve(v[0], 'Light', 'Kierunek B')[0];
+    bt.insertAdjacentHTML('beforeend', `<tr><td>${v[0]}</td><td><span class="sw">${chip(a)}<span class="hex">${a}</span></span></td><td><span class="sw">${chip(b)}<span class="hex">${b}</span></span></td><td class="only-kod">${copy(css(v[0]))}</td></tr>`);
+  }
+
+  // Typografia
+  const R = C.Responsive, val = (n, m) => idx[n].v[2][R.modes.indexOf(m)];
+  const ty = document.getElementById('type');
+  for (const [name, fam, style, size, lh, track, desc] of T.textStyles) {
+    const sizes = ['Desktop', 'Tablet', 'Mobile'].map(m => `${val(size, m)}/${val(lh, m)}`).join(' · ');
+    ty.insertAdjacentHTML('beforeend', `<div class="spec"><div class="meta"><b>${name}</b><span>${fam} ${style}</span><span>${sizes} px</span><span class="only-kod">${copy('--t-' + name)}</span></div>
+      <div style="font:var(--t-${name});letter-spacing:var(--t-${name}-tracking)">${name === 'display' || name === 'h1' ? 'Siła technologii. Przewaga treści.' : 'Beck-Noxtua – wiarygodny research oparty na treściach z systemu Legalis.'}${desc ? `<div class="small muted" style="font:var(--t-caption)">${esc(desc)}</div>` : ''}</div></div>`);
+  }
+
+  // Odstępy i promienie
+  const lt = document.querySelector('#t-layout tbody');
+  for (const v of C.Layout.vars) {
+    const n = v[0], x = v[2][0];
+    const prev = n.startsWith('space/') ? `<div class="bar" style="width:${x}px"></div>` : n.startsWith('radius/') ? `<div class="rad" style="border-radius:${Math.min(x, 24)}px"></div>` : '';
+    lt.insertAdjacentHTML('beforeend', `<tr><td>${n}</td><td class="num">${x}${n.includes('columns') ? '' : ' px'}</td><td>${prev}</td><td class="only-kod">${copy(css(n))}</td></tr>`);
+  }
+
+  // Responsywne
+  const rt = document.querySelector('#t-resp tbody');
+  for (const v of R.vars) {
+    const cells = v[2].map(x => `<td class="num">${typeof x === 'boolean' ? (x ? 'tak' : 'nie') : x}</td>`).join('');
+    rt.insertAdjacentHTML('beforeend', `<tr><td>${v[0]}</td>${cells}<td class="only-projekt small">${esc(v[3] || '')}</td><td class="only-kod">${copy(css(v[0]))}</td></tr>`);
+  }
+})();
+</script>
+</body>
+</html>

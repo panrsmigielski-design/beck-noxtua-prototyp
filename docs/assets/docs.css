@@ -1,0 +1,92 @@
+/* Dokumentacja Beck-Noxtua – style strony. Kolory, odstępy i typografia z tokens.css. */
+*{box-sizing:border-box;margin:0}
+html{background:var(--bg-canvas);color:var(--text-primary);font:var(--t-body);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;display:grid;grid-template-columns:260px 1fr;background:var(--bg-canvas)}
+a{color:var(--accent-default)}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Pasek boczny */
+.side{position:sticky;top:0;height:100vh;overflow:auto;padding:var(--space-24);border-right:1px solid var(--border-default);background:var(--bg-subtle);display:flex;flex-direction:column;gap:var(--space-24)}
+.side .brand{font:var(--t-h4);color:var(--text-primary);text-decoration:none;display:grid;gap:2px}
+.side .brand small{font:var(--t-caption);color:var(--text-muted)}
+.side nav{display:grid;gap:2px}
+.side nav a{padding:8px 10px;border-radius:var(--radius-sm);color:var(--text-secondary);text-decoration:none;font:var(--t-body-sm)}
+.side nav a:hover{background:var(--surface-hover)}
+.side nav a[aria-current="page"]{background:var(--surface-selected);color:var(--text-primary);font-weight:500}
+.side nav .soon{opacity:.55;pointer-events:none}
+.side nav .soon::after{content:" · wkrótce";font:var(--t-caption)}
+.side .foot{margin-top:auto;display:grid;gap:var(--space-12);font:var(--t-caption);color:var(--text-muted)}
+
+/* Przełączniki */
+.seg{display:inline-flex;justify-self:start;padding:2px;border:1px solid var(--border-strong);border-radius:var(--radius-pill);background:var(--bg-canvas)}
+.seg button{border:0;background:none;color:var(--text-secondary);font:var(--t-label);padding:6px 14px;border-radius:var(--radius-pill);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--action-primary-bg);color:var(--action-primary-text)}
+.ctl{display:grid;gap:6px}
+.ctl>span{font:var(--t-caption);color:var(--text-muted)}
+
+/* Treść */
+main{padding:var(--space-48) clamp(24px,5vw,80px) var(--space-96);max-width:1200px;width:100%}
+.eyebrow{font:var(--t-label);color:var(--accent-default)}
+h1{font:var(--t-display);letter-spacing:var(--t-display-tracking);margin:8px 0 16px}
+h2{font:var(--t-h2);letter-spacing:var(--t-h2-tracking);margin:var(--space-64) 0 var(--space-16);scroll-margin-top:24px}
+h3{font:var(--t-h4);margin:var(--space-32) 0 var(--space-12)}
+p.lead{font:var(--t-body-lg);color:var(--text-secondary);max-width:70ch}
+p{max-width:75ch}
+.muted{color:var(--text-muted)}
+.small{font:var(--t-body-sm)}
+code,.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.toc{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:var(--space-24);font:var(--t-body-sm)}
+
+/* Widok Projekt / Kod */
+html:not([data-view="kod"]) .only-kod{display:none!important}
+html[data-view="kod"] .only-projekt{display:none!important}
+
+/* Karty i tabele */
+.cards{display:grid;gap:var(--space-16);grid-template-columns:repeat(auto-fill,minmax(240px,1fr));margin-top:var(--space-24)}
+.card{display:grid;gap:8px;padding:var(--space-24);border:1px solid var(--border-default);border-radius:var(--radius-md);background:var(--bg-elevated);text-decoration:none;color:inherit}
+a.card:hover{border-color:var(--accent-default)}
+.card b{font:var(--t-h4)}
+.card span{font:var(--t-body-sm);color:var(--text-secondary)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border-default);border-radius:var(--radius-md);background:var(--bg-elevated)}
+table{border-collapse:collapse;width:100%;font:var(--t-body-sm)}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border-default);vertical-align:middle}
+th{font:var(--t-label);color:var(--text-muted);background:var(--bg-subtle);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+td.hex{white-space:nowrap}
+
+/* Próbki kolorów */
+.sw{display:inline-flex;align-items:center;gap:10px}
+.chip{width:40px;height:28px;border-radius:6px;border:1px solid rgba(0,0,0,.12);flex:none;background-image:linear-gradient(45deg,#ccc 25%,transparent 25%,transparent 75%,#ccc 75%),linear-gradient(45deg,#ccc 25%,transparent 25%,transparent 75%,#ccc 75%);background-size:8px 8px;background-position:0 0,4px 4px;position:relative;overflow:hidden}
+.chip i{position:absolute;inset:0}
+.hex{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--text-muted)}
+.ratio{display:inline-block;padding:2px 8px;border-radius:999px;font:var(--t-caption);white-space:nowrap}
+.ratio.ok{background:var(--feedback-success-soft);color:var(--feedback-success)}
+.ratio.bad{background:var(--feedback-error-soft);color:var(--feedback-error)}
+.fam{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-bottom:var(--space-24)}
+.pr{border:1px solid var(--border-default);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg-elevated)}
+.pr .c{height:56px}
+.pr div:last-child{padding:8px 10px;display:grid;gap:2px;font:var(--t-caption)}
+.copy{border:1px solid var(--border-default);background:var(--bg-canvas);color:var(--text-secondary);border-radius:6px;padding:2px 8px;font:var(--t-caption);cursor:pointer;font-family:ui-monospace,Menlo,monospace}
+.copy:hover{border-color:var(--accent-default)}
+.copy.done{border-color:var(--feedback-success);color:var(--feedback-success)}
+
+/* Typografia */
+.spec{display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--border-default)}
+.spec .meta{font:var(--t-caption);color:var(--text-muted);display:grid;gap:2px}
+.spec .meta b{font:var(--t-label);color:var(--text-primary)}
+
+/* Odstępy */
+.bar{height:12px;background:var(--accent-soft);border-radius:3px}
+.rad{width:48px;height:48px;border:2px solid var(--accent-default);background:var(--bg-subtle)}
+
+.note{padding:16px 20px;border-left:4px solid var(--accent-default);background:var(--accent-soft);color:var(--accent-on-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font:var(--t-body-sm);margin:var(--space-24) 0;max-width:80ch}
+.pre{background:var(--bg-inverse);color:var(--text-inverse);padding:16px 20px;border-radius:var(--radius-md);overflow:auto;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.6;white-space:pre}
+
+@media (max-width:900px){
+  body{grid-template-columns:1fr}
+  .side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border-default)}
+  .side nav{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .spec{grid-template-columns:1fr}
+}
