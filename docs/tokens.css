@@ -282,6 +282,10 @@
   --highlight-card-height: 380px;
   --error-code-size: 120px;
   --logo-strip-fade-width: 34px;
+  --animation-height: 640px;
+  --media-height-full: 196px;
+  --bento-tile-height: 448px;
+  --showcase-screen-height: 179px;
 }
 @media (min-width: 768px) {
 :root {
@@ -335,6 +339,10 @@
   --highlight-card-height: 360px;
   --error-code-size: 160px;
   --logo-strip-fade-width: 69px;
+  --animation-height: 800px;
+  --media-height-full: 402px;
+  --bento-tile-height: 532px;
+  --showcase-screen-height: 400px;
 }
 }
 @media (min-width: 1024px) {
@@ -388,6 +396,9 @@
   --highlight-card-height: 520px;
   --error-code-size: 200px;
   --logo-strip-fade-width: 120px;
+  --animation-height: 712px;
+  --media-height-full: 344px;
+  --showcase-screen-height: 401px;
 }
 }
 @media (min-width: 1920px) {
@@ -409,6 +420,9 @@
   --stats-image-height: 600px;
   --highlight-card-height: 560px;
   --logo-strip-fade-width: 128px;
+  --animation-height: 848px;
+  --media-height-full: 367px;
+  --showcase-screen-height: 430px;
 }
 }
 /* Typografia: font shorthand + tracking */
