@@ -271,6 +271,7 @@
   --layout-span-4: 335px;
   --layout-span-5: 335px;
   --layout-span-7: 335px;
+  --layout-hero-text: 335px;
   --layout-span-8: 335px;
   --layout-column-gap: 24px;
   --hero-controls-bottom: 32px;
@@ -331,6 +332,7 @@
   --layout-span-4: 688px;
   --layout-span-5: 688px;
   --layout-span-7: 688px;
+  --layout-hero-text: 421px;
   --layout-span-8: 688px;
   --hero-controls-bottom: 48px;
   --media-text-min-width: 688px;
@@ -385,6 +387,7 @@
   --layout-span-4: 384px;
   --layout-span-5: 486px;
   --layout-span-7: 690px;
+  --layout-hero-text: 690px;
   --layout-span-8: 792px;
   --layout-column-gap: 126px;
   --hero-controls-bottom: 64px;
@@ -415,6 +418,7 @@
   --layout-span-4: 411px;
   --layout-span-5: 519px;
   --layout-span-7: 737px;
+  --layout-hero-text: 737px;
   --layout-span-8: 845px;
   --layout-column-gap: 133px;
   --stats-image-height: 600px;
