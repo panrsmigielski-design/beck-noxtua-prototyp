@@ -276,7 +276,8 @@ section{padding-block:var(--section-padding-y)}
 .quote cite{font-style:normal;font:var(--t-body-sm);color:var(--text-muted)}
 
 /* ================= security ================= */
-.sec-grid{display:grid;gap:var(--section-gap)} @media(min-width:1024px){.sec-grid{grid-template-columns:1fr 1fr;align-items:start}}
+.sec-grid{display:grid;gap:var(--section-gap)} /* jak Security section w Figmie: tekst layout/span-5, odstęp layout/column-gap, certyfikaty – reszta */
+@media(min-width:1024px){.sec-grid{grid-template-columns:minmax(0,var(--layout-span-5)) minmax(0,1fr);column-gap:var(--layout-column-gap);align-items:start}}
 .certs{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border-default);border:1px solid var(--border-default);border-radius:var(--radius-md);overflow:hidden}
 @media(min-width:768px){.certs{grid-template-columns:repeat(3,1fr)}}
 .certs button{background:var(--bg-canvas);border:0;padding:var(--space-24) var(--space-16);text-align:left;cursor:pointer;display:grid;gap:6px;color:var(--text-primary);transition:background .2s}
@@ -293,7 +294,7 @@ section{padding-block:var(--section-padding-y)}
 .note{margin-top:var(--space-24);font:var(--t-caption);color:var(--text-muted);display:grid;gap:4px}
 form.panel{background:var(--bg-elevated);border:1px solid var(--border-default);border-radius:var(--radius-lg);padding:var(--card-padding);display:grid;gap:var(--space-16)}
 .two{display:grid;gap:var(--space-16);align-items:start} @media(min-width:768px){.two{grid-template-columns:1fr 1fr}}
-.field{display:grid;gap:6px;align-content:start} .field label{font:var(--t-label)} .req{color:var(--feedback-error)}
+.field{display:grid;gap:var(--space-8);align-content:start} .field label{font:var(--t-label)} .req{color:var(--feedback-error)}
 .input{height:48px;width:100%;padding:0 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--bg-canvas);color:var(--text-primary);font:var(--t-body);transition:border-color .2s,box-shadow .2s}
 .input::placeholder{color:var(--text-muted)}
 .input:focus{outline:none;border-color:var(--focus-ring);box-shadow:0 0 0 3px color-mix(in srgb,var(--focus-ring) 25%,transparent)}
@@ -402,6 +403,7 @@ footer .brand{color:#efeeea} footer .brand .logo{width:190px}
 .fcard .tile .ico{width:22px;height:22px}
 .fcard p{font:var(--t-body-sm);color:var(--text-secondary)}
 .sec-head.wide{max-width:792px}
+.sec-head.full{max-width:none}
 /* stopka: certyfikaty */
 .foot-certs{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--space-32)}
 .foot-certs span{font:var(--t-caption);padding:6px 12px;border-radius:999px;border:1px solid rgba(239,238,234,.18);color:rgba(239,238,234,.75)}
@@ -698,6 +700,8 @@ footer.site .seg button[aria-disabled="true"]{color:rgba(239,238,234,.55)}
 .shot-band.kv{background:#2c1b2d url("assets/img/nextgen/kv.webp") center/cover no-repeat}
 .shot-band img.mock{aspect-ratio:16/10}
 .shot-band img.mock-pm{aspect-ratio:960/563;max-width:974px}
+/* jak w Figmie (Noxtua NextGen › Zrzut na teksturze): makieta screenshot/width × screenshot/height, kadr Fill, ramka 1 px */
+@media(min-width:768px){.shot-band img.mock-pm{max-width:var(--screenshot-width);aspect-ratio:auto;height:var(--screenshot-height);object-position:center;border-width:1px}}
 .tm-img.tm-shot{display:block;width:100%;height:auto;aspect-ratio:1.71;object-fit:cover;border-radius:var(--radius-md);background:var(--bg-subtle)}
 .tm-text .lead+.lead{margin-top:var(--space-4)}
 .anim-sec{padding:0;position:relative;height:var(--animation-height);overflow:hidden;background:#2c1b2d url("assets/img/nextgen/kv.webp") center/cover no-repeat}
@@ -1011,7 +1015,7 @@ footer.site .seg button[aria-disabled="true"]{color:rgba(239,238,234,.55)}
 
 <!-- ============ TALL IMAGE CARDS ============ -->
 <section style="padding-top:0"><div class="wrap">
-  <div class="sec-head rv"><span class="eyebrow">Dlaczego Beck-Noxtua</span><h2 class="h1">Co sprawia, że Beck-Noxtua jest wyjątkowym narzędziem?</h2></div>
+  <div class="sec-head full rv"><span class="eyebrow">Dlaczego Beck-Noxtua</span><h2 class="h1">Co sprawia, że Beck-Noxtua jest wyjątkowym narzędziem?</h2></div>
   <div class="tall stagger">
     <article class="tcard rv" tabindex="0"><div class="img" data-par style="background-image:url('https://framerusercontent.com/images/e5ye5ceLWIyS29sIuwleHFx3Wm4.jpg')"></div><span class="shade" aria-hidden="true"></span><div class="body"><span class="num">01</span><h3 class="h3">Wiarygodność</h3><div class="reveal"><p>Jedyne narzędzie klasy Legal AI Workspace, które w odpowiedziach wskazuje wprost źródła z systemu Legalis.</p></div></div></article>
     <article class="tcard rv" tabindex="0"><div class="img" data-par style="background-image:url('https://framerusercontent.com/images/v9vVYu2sUV8hb3FCgQ5YzrCrNs.png')"></div><span class="shade" aria-hidden="true"></span><div class="body"><span class="num">02</span><h3 class="h3">Efektywność</h3><div class="reveal"><p>Wielokrotnie szybsze przygotowanie pism i opinii – bez limitu tokenów.</p></div></div></article>
@@ -1095,7 +1099,7 @@ footer.site .seg button[aria-disabled="true"]{color:rgba(239,238,234,.55)}
     <div class="important" role="note"><b>Ważne</b><span>Zapoznanie się z systemem, skorzystanie z okresu testowego i zakup możliwe są wyłącznie poprzez kontakt z Doradcą.</span><span>Korzystanie z Beck-Noxtua wymaga posiadania lub zakupu subskrypcji systemu Legalis w wersji Silver lub wyższej.</span><span>Okres testowy jest dostępny dla osób wykonujących zawód prawniczy w kancelariach, przedsiębiorstwach lub jednostkach administracji publicznej. W okresie testowym uruchomiony zostanie dostęp do systemu Legalis w odpowiedniej wersji.</span></div>
   </div>
   <form class="panel rv lead-form" id="form" data-prefix="" novalidate>
-    <h3 class="h3">Wypełnij formularz</h3><p class="small muted" style="margin-top:-8px">Skontaktujemy się z Tobą w ciągu jednego dnia roboczego.</p>
+    <h3 class="h3">Wypełnij formularz</h3><p class="small muted">Skontaktujemy się z Tobą w ciągu jednego dnia roboczego.</p>
     <div class="alert err" id="aErr" role="alert" tabindex="-1"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span><div><b style="font-weight:500" id="aErrT">Uzupełnij pola, aby wysłać zgłoszenie</b><ul id="aErrL"></ul></div></div>
     <div class="two">
       <div class="field"><label for="name">Imię i nazwisko *</label><input class="input" id="name" required aria-required="true" aria-describedby="name-err" autocomplete="name" placeholder="Jan Kowalski"><span class="hint err" id="name-err" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span>Podaj imię i nazwisko.</span></div>
@@ -1107,7 +1111,7 @@ footer.site .seg button[aria-disabled="true"]{color:rgba(239,238,234,.55)}
     </div>
     <div class="field"><label for="org">Kancelaria / przedsiębiorstwo / jednostka administracji *</label><input class="input" id="org" required aria-required="true" aria-describedby="org-err" autocomplete="organization" placeholder="Nazwa organizacji"><span class="hint err" id="org-err" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span>Podaj nazwę kancelarii, przedsiębiorstwa lub jednostki.</span></div>
     <div class="field"><label for="nip">NIP *</label><input class="input" id="nip" required aria-required="true" aria-describedby="nip-err nip-ok" inputmode="numeric" placeholder="000-000-00-00"><span class="hint err" id="nip-err" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span>Nieprawidłowy NIP – sprawdź cyfry.</span><span class="hint ok" id="nip-ok" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></span>NIP poprawny</span></div>
-    <p class="small" style="font-weight:500">Zgody</p>
+    <p style="font:var(--t-label)">Zgody</p>
     <label class="check" id="c1wrap"><input type="checkbox" id="c1" required aria-required="true" aria-describedby="c1-err"><span>Akceptuję kontakt ze strony Doradcy i uruchomienie okresu testowego Beck-Noxtua na warunkach wskazanych w formularzu oraz OWU Beck-Noxtua z załącznikami <a href="https://beck-noxtua.pl/wp-content/uploads/2026/10/OWU-Beck-Noxtua-zalaczniki-16_10_2026.pdf" target="_blank" rel="noopener">Ogólne warunki korzystania z systemu Beck-Noxtua</a>. Potwierdzam, że działam w imieniu własnym albo jestem uprawniony/a do akceptacji w imieniu Klienta. *</span></label>
     <span class="hint err" id="c1-err" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span>Zaznacz zgodę, aby wysłać zgłoszenie.</span>
     <label class="check"><input type="checkbox"><span>Chcę otrzymywać informacje o ofercie C.H.Beck z wykorzystaniem adresu e-mail.</span></label>
@@ -1255,7 +1259,7 @@ footer.site .seg button[aria-disabled="true"]{color:rgba(239,238,234,.55)}
     <div class="important" role="note"><b>Ważne</b><span>Zapoznanie się z systemem, skorzystanie z okresu testowego i zakup możliwe są wyłącznie poprzez kontakt z Doradcą.</span><span>Korzystanie z Beck-Noxtua wymaga posiadania lub zakupu subskrypcji systemu Legalis w wersji Silver lub wyższej.</span><span>Okres testowy jest dostępny dla osób wykonujących zawód prawniczy w kancelariach, przedsiębiorstwach lub jednostkach administracji publicznej. W okresie testowym uruchomiony zostanie dostęp do systemu Legalis w odpowiedniej wersji.</span></div>
   </div>
   <form class="panel rv lead-form" id="z-form" data-prefix="z-" novalidate>
-    <h3 class="h3">Wypełnij formularz</h3><p class="small muted" style="margin-top:-8px">Skontaktujemy się z Tobą w ciągu jednego dnia roboczego.</p>
+    <h3 class="h3">Wypełnij formularz</h3><p class="small muted">Skontaktujemy się z Tobą w ciągu jednego dnia roboczego.</p>
     <div class="alert err" id="z-aErr" role="alert" tabindex="-1"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span><div><b style="font-weight:500" id="z-aErrT">Uzupełnij pola, aby wysłać zgłoszenie</b><ul id="z-aErrL"></ul></div></div>
     <div class="two">
       <div class="field"><label for="z-name">Imię i nazwisko *</label><input class="input" id="z-name" required aria-required="true" aria-describedby="z-name-err" autocomplete="name" placeholder="Jan Kowalski"><span class="hint err" id="z-name-err" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span>Podaj imię i nazwisko.</span></div>
@@ -1267,7 +1271,7 @@ footer.site .seg button[aria-disabled="true"]{color:rgba(239,238,234,.55)}
     </div>
     <div class="field"><label for="z-org">Kancelaria / przedsiębiorstwo / jednostka administracji *</label><input class="input" id="z-org" required aria-required="true" aria-describedby="z-org-err" autocomplete="organization" placeholder="Nazwa organizacji"><span class="hint err" id="z-org-err" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span>Podaj nazwę kancelarii, przedsiębiorstwa lub jednostki.</span></div>
     <div class="field"><label for="z-nip">NIP *</label><input class="input" id="z-nip" required aria-required="true" aria-describedby="z-nip-err z-nip-ok" inputmode="numeric" placeholder="000-000-00-00"><span class="hint err" id="z-nip-err" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span>Nieprawidłowy NIP – sprawdź cyfry.</span><span class="hint ok" id="z-nip-ok" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></span>NIP poprawny</span></div>
-    <p class="small" style="font-weight:500">Zgody</p>
+    <p style="font:var(--t-label)">Zgody</p>
     <label class="check" id="z-c1wrap"><input type="checkbox" id="z-c1" required aria-required="true" aria-describedby="z-c1-err"><span>Akceptuję kontakt ze strony Doradcy i uruchomienie okresu testowego Beck-Noxtua na warunkach wskazanych w formularzu oraz OWU Beck-Noxtua z załącznikami <a href="https://beck-noxtua.pl/wp-content/uploads/2026/10/OWU-Beck-Noxtua-zalaczniki-16_10_2026.pdf" target="_blank" rel="noopener">Ogólne warunki korzystania z systemu Beck-Noxtua</a>. Potwierdzam, że działam w imieniu własnym albo jestem uprawniony/a do akceptacji w imieniu Klienta. *</span></label>
     <span class="hint err" id="z-c1-err" aria-live="polite"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></span>Zaznacz zgodę, aby wysłać zgłoszenie.</span>
     <label class="check"><input type="checkbox"><span>Chcę otrzymywać informacje o ofercie C.H.Beck z wykorzystaniem adresu e-mail.</span></label>
