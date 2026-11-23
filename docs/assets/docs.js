@@ -12,7 +12,7 @@
   const PAGES = [
     ['index.html', 'Start'],
     ['tokeny.html', 'Tokeny'],
-    [null, 'Komponenty'],
+    ['komponenty.html', 'Komponenty'],
     [null, 'Zasady'],
     ['raport-wcag.html', 'Raport WCAG'],
     [null, 'CSS']

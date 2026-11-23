@@ -1,0 +1,44 @@
+/* Klasy komponentów do żywych przykładów – KOPIA z prototyp/index.html (przyciski).
+   Zmieniasz styl w prototypie – przenieś zmianę tutaj. */
+.demo .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-8);height:44px;padding:0 var(--space-24);border-radius:var(--radius-sm);font:var(--t-label);border:1px solid transparent;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.demo .btn .ico{width:16px;height:16px;display:inline-flex}
+.demo .btn-primary{background:var(--action-primary-bg);color:var(--action-primary-text)} .demo .btn-primary:hover,.demo .btn-primary:focus-visible{background:var(--action-primary-bg-hover)}
+.demo .btn-secondary{background:transparent;color:var(--action-secondary-text);border-color:var(--action-secondary-border)} .demo .btn-secondary:hover,.demo .btn-secondary:focus-visible{background:var(--action-secondary-bg-hover)}
+.demo .btn-ghost{background:transparent;color:var(--text-primary)} .demo .btn-ghost:hover,.demo .btn-ghost:focus-visible{background:var(--action-secondary-bg-hover)}
+.demo .btn-sm{height:36px;padding:0 var(--space-16);font:var(--t-body-sm)} .demo .btn-lg{height:52px;padding:0 var(--space-32)}
+.demo .btn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.demo .btn:disabled:not([aria-busy="true"]){opacity:.4;cursor:not-allowed}
+.demo .btn[aria-busy="true"]{cursor:progress}
+.demo .btn-primary[aria-busy="true"]{background:var(--action-primary-bg-hover);color:var(--action-primary-text);opacity:1}
+.demo .btn[aria-busy="true"] .spin{width:16px;height:16px;animation:demo-spin 1s linear infinite}
+@keyframes demo-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.demo .spin{animation:none}}
+
+/* Icon button – kopia z prototypu */
+.demo .ibtn{display:inline-flex;align-items:center;justify-content:center;flex:none;width:40px;height:40px;padding:0;border-radius:var(--radius-sm);border:1px solid transparent;background:transparent;color:var(--text-primary);cursor:pointer;transition:background .2s}
+.demo .ibtn .ico{width:20px;height:20px;display:inline-flex}
+.demo .ibtn-secondary{border-color:var(--action-secondary-border)}
+.demo .ibtn:hover,.demo .ibtn:focus-visible{background:var(--action-secondary-bg-hover)}
+.demo .ibtn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.demo .ibtn-round{border-radius:999px}
+.demo .ibtn-s{width:32px;height:32px} .demo .ibtn-s .ico{width:16px;height:16px}
+.demo .ibtn-l{width:44px;height:44px}
+.demo .ibtn:disabled{opacity:.4;cursor:not-allowed}
+
+/* Układ strony Komponenty */
+.cmp{padding-top:var(--space-16);border-top:1px solid var(--border-default);margin-top:var(--space-48)}
+.figma-desc{font:var(--t-body-sm);color:var(--text-secondary);max-width:80ch;margin-top:var(--space-8)}
+.ex{margin-top:var(--space-24)}
+.ex h4{font:var(--t-label);margin-bottom:8px}
+.demos{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border-default);border-radius:var(--radius-md);overflow:hidden}
+.demo{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:var(--space-24);background:var(--bg-canvas);color:var(--text-primary);position:relative;min-height:120px}
+.demo>small{position:absolute;top:8px;left:12px;font:var(--t-caption);color:var(--text-muted)}
+.ex .pre{margin-top:8px;border-radius:var(--radius-sm)}
+.kv{display:grid;grid-template-columns:minmax(120px,200px) 1fr;gap:8px 24px;margin-top:var(--space-16);font:var(--t-body-sm);max-width:90ch}
+.kv dt{font-weight:500}
+.kv dd{margin:0;color:var(--text-secondary)}
+.cmp ul{padding-left:1.2em;display:grid;gap:6px;font:var(--t-body-sm);max-width:80ch;margin-top:var(--space-12)}
+.cmp h3{margin-top:var(--space-32)}
+.tok-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--space-12)}
+.tok-list a{font:var(--t-caption);padding:2px 8px;border:1px solid var(--border-default);border-radius:var(--radius-xs);text-decoration:none;color:var(--text-primary)}
+@media (max-width:767px){.demos{grid-template-columns:1fr}.kv{grid-template-columns:1fr}.kv dd{margin-bottom:8px}}

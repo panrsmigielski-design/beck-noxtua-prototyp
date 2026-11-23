@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Komponenty – Beck-Noxtua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="assets/docs.css?v=20261122">
+<link rel="stylesheet" href="assets/components.css?v=20261123">
+<script src="assets/docs.js"></script>
+<script src="data/components.js"></script>
+</head>
+<body>
+<aside class="side" id="side"></aside>
+<main id="main">
+  <span class="eyebrow">Komponenty</span>
+  <h1>Komponenty</h1>
+  <p class="lead">Do czego służy każdy komponent biblioteki, jakie ma warianty i stany, jak go zbudować dostępnie. Przykłady to żywy HTML z klasami prototypu – w motywie jasnym i ciemnym.</p>
+  <nav class="toc" aria-label="Na tej stronie" id="toc"></nav>
+  <div id="list"></div>
+</main>
+<script>
+(() => {
+  const D = window.BN_COMPONENTS;
+  const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+  const kv = rows => `<dl class="kv">${rows.map(([k, ...v]) => `<dt>${esc(k)}</dt><dd>${v.map(esc).join('<br>')}</dd>`).join('')}</dl>`;
+  const css = n => '--' + n.replace(/\//g, '-');
+  const toc = document.getElementById('toc'), list = document.getElementById('list');
+
+  for (const c of D.components) {
+    toc.insertAdjacentHTML('beforeend', `<a href="#${c.id}">${esc(c.name)}</a>`);
+    const ex = c.examples.map(e => `<div class="ex"><h4>${esc(e.label)}</h4>
+      <div class="demos"><div class="demo" data-theme="light"><small>Jasny</small>${e.html}</div><div class="demo" data-theme="dark"><small>Ciemny</small>${e.html}</div></div>
+      <div class="pre only-kod">${esc(e.html)}</div></div>`).join('');
+    list.insertAdjacentHTML('beforeend', `<section class="cmp" id="${c.id}" aria-labelledby="${c.id}-h">
+      <span class="eyebrow">${esc(c.group)}</span>
+      <h2 id="${c.id}-h">${esc(c.name)}</h2>
+      <p>${esc(c.summary)}</p>
+      <p class="figma-desc only-projekt"><b>Opis w bibliotece:</b> ${esc(c.figma)}</p>
+      ${ex}
+      <h3>Właściwości</h3>${kv(c.props)}
+      <h3>Wymiary</h3>${kv(c.specs)}
+      <h3>Stany</h3>${kv(c.states)}
+      <h3>Dostępność</h3><ul>${c.a11y.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+      <h3>Responsywność</h3><p class="small">${esc(c.responsive)}</p>
+      <h3>Tokeny</h3><div class="tok-list">${c.tokens.map(t => `<a href="tokeny.html#kolory"><span class="only-projekt">${esc(t)}</span><span class="only-kod">var(${css(t)})</span></a>`).join('')}</div>
+    </section>`);
+  }
+  // przykładowe linki nie przenoszą na górę strony
+  list.addEventListener('click', e => { if (e.target.closest('.demo a[href="#"]')) e.preventDefault(); });
+})();
+</script>
+</body>
+</html>
