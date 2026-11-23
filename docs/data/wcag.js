@@ -3,6 +3,7 @@
 window.BN_WCAG = {
   standard: 'WCAG 2.2, poziom AA',
   audits: [
+    { date: '2026-11-23', scope: 'Prototyp HTML v0.8: 14 podstron × Light/Dark × 1440 i 375 px.', method: 'axe-core 4.12 (WCAG 2.0–2.2 A/AA + dobre praktyki), tools/a11y.py (nagłówki, nazwy, ID, kontrast, kolejność fokusu na 70 krokach Tab), pomiar celów dotykowych, lang, tytułów i przewijania poziomego. Kontrast tekstu na zdjęciach nie był powtarzany (zob. uwagi).' },
     { date: '2026-10-22', scope: 'Makiety Figma (Noxtua Landing Page): strona główna PL Desktop/Mobile Light/Dark, otwarte menu, podstrony Desktop/Mobile ze stanami formularzy i 404 – 30 ekranów, 1276 tekstów; tokeny i komponenty biblioteki.', method: 'Pomiar w Figmie: rzeczywisty kolor tekstu i tła ze zmiennych w trybie ekranu, kontrast WCAG; rozmiary celów dotykowych; stany Focus w komponentach; kontrast tokenów obramowań i fokusu.' },
     { date: '2026-10-27', scope: 'Tekst na zdjęciach (W3, W5): prototyp 1440 i 375 px – karty „Co wyróżnia”, 3 slajdy hero, nagłówek i pasek nad zdjęciem, hero 5 podstron, CTA i stopka.', method: 'Zrzut ekranu z ukrytym tekstem → kontrast koloru tekstu z każdym pikselem tła pod nim (prototyp/tools/kontrast_zdjecia.py). Wynik: minimum, 5. percentyl i udział pikseli poniżej progu.' },
     { date: '2026-10-27', scope: 'Prototyp HTML v0.6 po poprawkach Ani: strona główna, Research, Analiza, Drafting, System modeli, Zamów dostęp, OWU, Newsletter × Light/Dark.', method: 'Ten sam skrypt w przeglądarce (tools/a11y.py): nagłówki, nazwy dostępne, alt, ID, kontrast. Bez nowych błędów; zgłoszenia kontrastu dotyczą tekstu na zdjęciach (W5).' },
@@ -72,6 +73,29 @@ window.BN_WCAG = {
       fix: 'Stan Loading ma pełne kolory: tło action/primary-bg-hover, tekst i ikona action/primary-text – 8,5:1 (Light) i 11,8:1 (Dark). Zmienione w bibliotece (Button, Primary L i M) i w prototypie.',
       code: '.btn-primary[aria-busy="true"] { background: var(--action-primary-bg-hover); color: var(--action-primary-text); opacity: 1 } – bez opacity; kliknięcia blokuje disabled + aria-busy="true".',
       fixedOn: '2026-10-22', note: 'Biblioteka opublikowana, makiety zaktualizowane.'
+    },
+    {
+      id: 'W8', criterion: '2.5.8', name: 'Rozmiar celu (minimalny)', level: 'AA', status: 'poprawione', where: ['Prototyp'],
+      title: 'Przyciski slajdów w hero na mobile miały 40×2 px',
+      problem: 'Poniżej 768 px podpisy slajdów są ukryte i klikalny element zostaje samym paskiem postępu (2 px wysokości) – cel dotykowy 40×2 px.',
+      fix: 'Przycisk ma padding-block 11 px, więc pole klikalne to 40×24 px; sam pasek zostaje cienki. Linki w stopce prawnej dostały padding-block 4 px (16 → 24 px).',
+      code: '.slides-nav button { width: 40px; padding-block: 11px } (max-width: 767px); .foot-bottom a, .foot-bottom button { padding-block: 4px }',
+      fixedOn: '2026-11-23', note: 'Do rozważenia przy wdrożeniu: 44 px dla przycisków slajdów (zalecenie, nie wymóg AA).'
+    },
+    {
+      id: 'W9', criterion: '2.4.4 / 4.1.2', name: 'Cel linku / Nazwa, rola, wartość', level: 'A', status: 'poprawione', where: ['Prototyp'],
+      title: 'Linki „Ustawienia cookies” i „Dostępność” w stopce prowadziły donikąd',
+      problem: 'Oba elementy były linkami z href="#": nic nie robiły, a w prototypie ze ścieżkami po hashu mogły zresetować widok.',
+      fix: 'Zamienione na przyciski z aria-disabled="true" i dopiskiem „(wkrótce)” dla czytników – tak jak EN w menu języka. Przy wdrożeniu: cookies → przycisk otwierający ustawienia zgód, Dostępność → link do deklaracji dostępności.',
+      code: '<button type="button" aria-disabled="true">Ustawienia cookies<span class="sr-only"> (wkrótce)</span></button>',
+      fixedOn: '2026-11-23', note: 'Deklaracja dostępności (wymóg europejskiej dyrektywy o dostępności) wymaga osobnej treści od klienta.'
+    },
+    {
+      id: 'W10', criterion: '1.3.1', name: 'Informacje i relacje', level: 'A', status: 'poprawione', where: ['Prototyp'],
+      title: 'Panel czatu: nagłówek h4 bez nadrzędnych',
+      problem: '„Masz pytania?” było h4 w panelu poza strukturą strony, więc nagłówki przeskakiwały z h2 do h4. Blok CTA nie leżał w żadnym punkcie orientacyjnym (axe: region).',
+      fix: 'Nagłówek panelu to h3 (wygląd bez zmian – klasa .h4); blok CTA ma role="region" z aria-labelledby.',
+      fixedOn: '2026-11-23'
     }
   ],
   passed: [
